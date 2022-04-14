@@ -1,4 +1,4 @@
-@extends('products.layout')
+@extends('inscricao.layout')
 
 @section('content')
     <div class="row" style="margin-bottom: 20px;">
@@ -35,7 +35,7 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('inscricao.store') }}" method="POST">
         @csrf
 
         <div class="row">

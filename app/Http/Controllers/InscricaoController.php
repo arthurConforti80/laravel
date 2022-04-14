@@ -29,7 +29,7 @@ class InscricaoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Nome' => 'required',
+            'name' => 'required',
             'cpf' => 'required',
             'endereco' => 'required',
             'estado' => 'required',
@@ -37,20 +37,24 @@ class InscricaoController extends Controller
             'cargo' => 'required',
         ]);
 
-        $estado = Estado::where('sigla', $request->estado)->get();
+        $estado = Estado::Select("estado_id")->where('sigla', $request->estado)->get();
         $pessoa = new PessoaFisica();
-        $pessoa->nome = $request->nome;
+        $pessoa->nome = $request->name;
         $pessoa->cpf = $request->cpf;
         $pessoa->endereco = $request->endereco;
         $pessoa->cidade_id = 1;
-        $pessoa->estado_id = $estado->estado_id;
+        foreach($estado as $state) {
+            $pessoa->estado_id = $state->estado_id;  
+        }
         $pessoa->save();
 
         $lastPeople = PessoaFisica::orderByDesc('id')
         ->limit(1)->get();
         
 	    $inscricao = new Inscricao();
-	    $inscricao->pessoa_fisica_id = $lastPeople->id;
+        foreach($lastPeople as $getPeople) {
+            $inscricao->pessoa_fisica_id = $getPeople->id;
+        }
 	    $inscricao->cargo = $request->cargo;
         $inscricao->save();
 

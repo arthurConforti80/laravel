@@ -1,4 +1,4 @@
-@extends('products.layout')
+@extends('inscricao.layout')
 
 @section('content')
     <div class="row" style="margin-bottom: 20px;">
